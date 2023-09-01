@@ -12,7 +12,7 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
       - name: Run Trivy vulnerability scanner in fs mode
-        uses: aquasecurity/trivy-action@v0.0.1
+        uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -28,7 +28,7 @@ jobs:
         run: echo ${{github.event.pull_request.url}}
       - name: scan2html-action
         if: always()
-        uses: fatihtokus/scan2html-action@master
+        uses: fatihtokus/scan2html-action@v0.0.1
         with:
           scan-results-file: 'results.json'
           auditing-folder-path: 'auditing'
