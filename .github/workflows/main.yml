@@ -9,50 +9,27 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - name: Clone repo
-        uses: actions/checkout@master
-      - name: Upload math result for job 1
-        if: always()
-        uses: actions/upload-artifact@v3
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: aquasecurity/trivy-action@master
         with:
-          name: tf_results
-          path: results.json
-      - name: Upload math result for job 11
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: tf_results
-          path: results.html
+          scan-type: 'fs'
+          scan-ref: '.'
+          hide-progress: false
+          format: 'json'
+          output: 'results.json'
       - name: Print the final result
         if: always()
         shell: bash
         run: |
-          value=`cat results.json`
-          echo The result is $value
-              name: A job to say hello
+          cat "results.json"
       - name: pull_request
         run: echo ${{github.event.pull_request.url}}
-      - name: tf-visualizer-action
+      - name: scan2html-action
         if: always()
-        id: hello
-        uses: fatihtokus/tf-visualizer-action@v0.0.28
+        uses: fatihtokus/scan2html-action@master
         with:
-          pull-request: ${{github.event.pull_request.url}}
-          github-token: ${{ github.token }}
-      - name: Download math result for job 2
-        if: always()
-        uses: actions/download-artifact@v3
-        with:
-          name: tf_results
-      - name: outputtest1
-        if: always()
-        run: |
-          ls
-          echo "mix-ecto_create='ABC'" >> $GITHUB_OUTPUT
-        id: run_tests
-      - name: outputtest2
-        if: always()
-        run: |
-          echo ${{steps.run_tests.outputs.mix-ecto_create}}
-          echo ${{join(steps.run_tests.outputs.*, '\n')}}
-          echo ${{join(steps.tfsec.outputs.*, '\n')}}
+          scan-results-file: 'results.json'
+          auditing-folder-path: 'auditing'
+          auditing-branch: 'auditing'
