@@ -1,0 +1,13 @@
+{
+"Pushes" : [
+{
+"Id": "1696279092",
+"Url": "scan-results/result-1696279092.json",
+"Sha": "f5fa4cb91ca862117fc32f619a62a5327cd913aa",
+"Initiator": "fatihtokus",
+"Ref": "refs/pull/6/merge",
+"Event_Name": "pull_request",
+"Event_Path": "events/event-1696279092.json"
+}
+
+]}
